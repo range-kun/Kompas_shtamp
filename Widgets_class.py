@@ -37,3 +37,6 @@ class MakeWidgets(QtGui.QMainWindow):
             command=QtGui.QAction(item[0],self)
             self.connect(command, QtCore.SIGNAL('triggered()'), item[1])
             pulldown.addAction(command)
+    def error(self,message):
+        self.error_dialog = QtGui.QErrorMessage()
+        self.error_dialog.showMessage(message)

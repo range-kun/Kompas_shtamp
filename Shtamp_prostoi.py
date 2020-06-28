@@ -68,16 +68,16 @@ class Ui_MainWindow(MakeWidgets):
         MainWindow.setCentralWidget(self.centralwidget)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def error(self,message):
-        self.error_dialog = QtGui.QErrorMessage()
-        self.error_dialog.showMessage(message)
-
     def fill_stamp(self):
         self.config={110:[self.comboBox.currentText(),3.5],111:[self.comboBox_2.currentText(),3.5],
                      130:[self.get_date(),3.5],131:[self.get_date(),3.5]}
-        for k,v in self.config.items():
-            fill_margin(k, v[0], v[1])
-            print(k,v[0],v[1])
+        try:
+            for k,v in self.config.items():
+                fill_margin(k, v[0], v[1])
+                print(k,v[0],v[1])
+        except Exception:
+            self.error("Активный документ не найден")
+
     def get_date(self):
         return datetime.datetime.today().strftime("%m.%d")
     def add_item(self,list,name,widget):
