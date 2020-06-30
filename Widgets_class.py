@@ -15,17 +15,13 @@ class MakeWidgets(QtGui.QMainWindow):
             line.setStatusTip(status)
         line.setText(text)
         return line
-    def make_comobox(self,list,status=None,size=None):
+    def make_comobox(self,status=None,size=None):
         comobox=QtGui.QComboBox(self.centralwidget)
         if size:
             comobox.setMinimumSize(QtCore.QSize(*size))
         if status:
             comobox.setStatusTip(status)
-        self.fill_como_box(list, comobox)
         return comobox
-    def fill_como_box(self,list,widget):
-        for i in list:
-            widget.addItem(i)
     def make_menu(self):
         menu=self.menuBar()
         for name, items in self.menu_list:

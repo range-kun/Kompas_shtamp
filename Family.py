@@ -10,8 +10,9 @@ import MiscellaneousHelpers as MH
 def fill_margin(margin, name,font_size):
     kompas6_constants = gencache.EnsureModule("{75C9F5D0-B5B8-4526-8681-9903C567D2ED}", 0, 1, 0).constants
     kompas6_constants_3d = gencache.EnsureModule("{2CAF168C-7961-4B90-9DA2-701419BEEFE3}", 0, 1, 0).constants
-    #
-    # #  Подключим описание интерфейсов API5
+
+    #  Подключим описание интерфейсов API5
+
     kompas6_api5_module = gencache.EnsureModule("{0422828C-F174-495E-AC5D-D31014DBBE87}", 0, 1, 0)
     kompas_object = kompas6_api5_module.KompasObject(Dispatch("Kompas.Application.5")._oleobj_.QueryInterface(kompas6_api5_module.KompasObject.CLSID, pythoncom.IID_IDispatch))
     MH.iKompasObject  = kompas_object
