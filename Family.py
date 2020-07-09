@@ -7,19 +7,28 @@ from win32com.client import Dispatch, gencache
 import LDefin2D
 import MiscellaneousHelpers as MH
 
-def fill_margin(margin, name,font_size):
-    kompas6_constants = gencache.EnsureModule("{75C9F5D0-B5B8-4526-8681-9903C567D2ED}", 0, 1, 0).constants
-    kompas6_constants_3d = gencache.EnsureModule("{2CAF168C-7961-4B90-9DA2-701419BEEFE3}", 0, 1, 0).constants
 
-    #  Подключим описание интерфейсов API5
-
-    kompas6_api5_module = gencache.EnsureModule("{0422828C-F174-495E-AC5D-D31014DBBE87}", 0, 1, 0)
-    kompas_object = kompas6_api5_module.KompasObject(Dispatch("Kompas.Application.5")._oleobj_.QueryInterface(kompas6_api5_module.KompasObject.CLSID, pythoncom.IID_IDispatch))
-    MH.iKompasObject  = kompas_object
-    kompas_api7_module = gencache.EnsureModule("{69AC2981-37C0-4379-84FD-5DD2F3C0A520}", 0, 1, 0)
-    application = kompas_api7_module.IApplication(
-        Dispatch("Kompas.Application.7")._oleobj_.QueryInterface(kompas_api7_module.IApplication.CLSID,
+def get_kompas_api7():
+    module = gencache.EnsureModule("{69AC2981-37C0-4379-84FD-5DD2F3C0A520}", 0, 1, 0)
+    api = module.IApplication(
+        Dispatch("Kompas.Application.7")._oleobj_.QueryInterface(module.IKompasAPIObject.CLSID,
                                                                  pythoncom.IID_IDispatch))
+    #const = gencache.EnsureModule("{75C9F5D0-B5B8-4526-8681-9903C567D2ED}", 0, 1, 0)
+    return module, api
+
+
+def get_kompas_api5():
+    module = gencache.EnsureModule("{0422828C-F174-495E-AC5D-D31014DBBE87}", 0, 1, 0)
+    api = module.KompasObject(
+        Dispatch("Kompas.Application.5")._oleobj_.QueryInterface(module.KompasObject.CLSID, pythoncom.IID_IDispatch))
+    const = gencache.EnsureModule("{75C9F5D0-B5B8-4526-8681-9903C567D2ED}", 0, 1, 0)
+    return module, api, const.constants
+
+def fill_margin(margin, name,font_size):
+    kompas6_api5_module,kompas_object,kompas6_constants = get_kompas_api5()
+    kompas_api7_module,application=get_kompas_api7()
+
+    MH.iKompasObject  = kompas_object
     MH.iApplication = application
 
     Documents = application.Documents
@@ -53,8 +62,8 @@ def fill_margin(margin, name,font_size):
 if __name__=='__main__':
         fill_margin(1, '06.2020',3.5) #основная надпись
         fill_margin(2, '06.2020',3.5) #наименование детали
-        fill_margin(6, '06.2020',3.5) #предприятие
-        fill_margin(9, '06.2020',3.5) #масштаб
+        fill_margin(9, '06.2020',3.5) #предприятие
+        fill_margin(6, '06.2020',3.5) #масштаб
         fill_margin(110, 'Дугин',3.5) #разработал
         fill_margin(111, 'Власов',3.5) #проверил
         fill_margin(130, '06.2020',3.5) #когда разработал
