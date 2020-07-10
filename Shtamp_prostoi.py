@@ -1,10 +1,8 @@
 
 from _datetime import datetime
 import pythoncom
-import subprocess
 import sys
 import transaction
-import os
 
 from PyQt4 import QtCore, QtGui
 from ZODB import FileStorage, DB
@@ -243,14 +241,6 @@ class Ui_MainWindow(MakeWidgets):
         connection = db.open()
         root = connection.root()
         return root,storage
-
-
-def is_running(process_name):
-    call = 'TASKLIST','/NH', '/FI', 'imagename eq %s' % process_name
-    output = subprocess.check_output(call).decode('cp866')
-    last_line = output.strip().split('\r\n')[-1]
-    return last_line.lower().startswith(process_name.lower()[:-1])
-
 
 if __name__=='__main__':
     app = QtGui.QApplication(sys.argv)

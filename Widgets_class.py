@@ -89,31 +89,3 @@ class MakeWidgets(QtGui.QMainWindow):
     def error(self,message):
         self.error_dialog = QtGui.QErrorMessage()
         self.error_dialog.showMessage(message)
-
-app = QtGui.QApplication([])
-
-class Dialog(QtGui.QDialog):
-    def __init__(self, parent=None):
-        super(Dialog, self).__init__(parent)
-
-        self.resize(300, 100)
-        self.setLayout(QtGui.QVBoxLayout())
-
-        button = QtGui.QPushButton('Submit')
-        button.clicked.connect(self.onclick)
-        self.layout().addWidget(button)
-
-    def onclick(self):
-        self.close()
-        messagebox = QtGui.QMessageBox(QtGui.QMessageBox.Warning, "Title text", "body text",
-                                       buttons = QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, parent=self)
-        messagebox.setDefaultButton(QtGui.QMessageBox.Cancel)
-        exe = messagebox.exec_()
-        print ('messagebox.exec_(): %s'%exe )
-
-
-# dialog = Dialog()
-# dialog.show()
-# app.exec_()
-
-
